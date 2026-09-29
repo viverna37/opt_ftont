@@ -1,0 +1,35 @@
+.error-screen {
+    padding: 40px 20px calc(24px + var(--safe-bottom));
+}
+
+.error-screen-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.error-screen-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: var(--surface);
+    color: var(--low);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-screen-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.error-screen-text {
+    color: var(--ink-soft);
+    line-height: 1.5;
+}

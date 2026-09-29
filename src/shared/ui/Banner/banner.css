@@ -1,0 +1,40 @@
+.banner {
+    padding: 12px 14px;
+    border-radius: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.45;
+    border: 1px solid transparent;
+}
+
+.banner svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.banner-text {
+    flex: 1;
+}
+
+.banner-info {
+    background: var(--info-soft);
+    color: var(--info);
+}
+
+.banner-low {
+    background: var(--low-soft);
+    color: var(--low);
+    border-color: rgba(242, 190, 92, 0.35);
+}
+
+.banner-danger {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.banner-ok {
+    background: var(--accent-soft);
+    color: var(--accent);
+}

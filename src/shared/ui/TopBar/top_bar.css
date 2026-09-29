@@ -1,0 +1,35 @@
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px 8px;
+}
+
+.top-bar-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.top-bar-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top-bar-title.lg {
+    font-size: 22px;
+}
+
+.top-bar-title.md {
+    font-size: 19px;
+}
+
+.top-bar-subtitle {
+    font-size: 13px;
+    color: var(--ink-soft);
+}

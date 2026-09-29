@@ -1,0 +1,110 @@
+.ap-controls {
+    padding: 4px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ap-search {
+    height: 46px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    color: var(--ink-soft);
+}
+
+.ap-search input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    color: var(--ink);
+    font-size: 15px;
+}
+
+.ap-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 4px;
+}
+
+.ap-list {
+    padding: 0 20px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.ap-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ap-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--surface-alt);
+    border: 1px dashed var(--border-strong);
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ap-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ap-row-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    color: var(--ink);
+}
+
+.ap-row-name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.ap-price {
+    color: var(--ink);
+}
+
+.ap-fab {
+    position: fixed;
+    right: max(20px, calc(50vw - 220px));
+    bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 20px);
+    height: 54px;
+    padding: 0 20px;
+    border-radius: 18px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    z-index: 45;
+}

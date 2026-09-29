@@ -1,0 +1,64 @@
+.stepper {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.stepper button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+}
+
+.stepper button:disabled {
+    color: var(--ink-faint);
+}
+
+.stepper input {
+    width: 44px;
+    height: 38px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--accent);
+}
+
+.stepper-add {
+    width: 44px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stepper-add:disabled {
+    background: var(--out-soft);
+    color: var(--ink-faint);
+}
+
+.stepper.compact {
+    height: 36px;
+}
+
+.stepper.compact button {
+    width: 36px;
+    height: 36px;
+}
+
+.stepper.compact input {
+    width: 38px;
+    height: 34px;
+    font-size: 14px;
+}

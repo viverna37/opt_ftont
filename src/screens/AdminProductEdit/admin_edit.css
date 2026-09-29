@@ -1,0 +1,130 @@
+.edit-visible {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+
+.edit-body {
+    gap: 24px;
+}
+
+.edit-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.edit-photos {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.edit-photo,
+.edit-photo-add {
+    width: 96px;
+    height: 96px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.edit-photo {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+}
+
+.edit-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-photo-badge {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.edit-photo-add {
+    border: 1px dashed var(--border-strong);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.edit-variant {
+    min-height: 56px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-variant-name {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    text-align: left;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.edit-variant-own {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.edit-stock {
+    width: 64px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.edit-stock:focus {
+    border-color: var(--accent);
+}
+
+.attr-bool {
+    justify-content: space-between;
+}
+
+.attr-color {
+    display: flex;
+    gap: 8px;
+}
+
+.attr-color input[type="color"] {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+}

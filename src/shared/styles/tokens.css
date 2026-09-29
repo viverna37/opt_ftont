@@ -1,0 +1,42 @@
+/* Тёмная тема из макетов (mobile-first 390px). --accent/--on-accent
+   переопределяются на лету цветом тенанта (shared/tenant/applyBranding). */
+:root {
+    color-scheme: dark;
+
+    --bg: #111316;
+    --surface: #1a1d21;
+    --surface-alt: #22262b;
+    --surface-bar: #15181b;
+    --border: #2c3137;
+    --border-soft: #23272c;
+    --border-strong: #3a3f47;
+
+    --ink: #eef0f2;
+    --ink-soft: #a3abb5;
+    --ink-faint: #5a616b;
+
+    --accent: #8be0b4;
+    --accent-hover: #b5edd0;
+    --accent-soft: #1e3a2d;
+    --on-accent: #0e1a14;
+
+    --low: #f2be5c;
+    --low-soft: #3d3120;
+    --out: #a3abb5;
+    --out-soft: #262a2f;
+    --danger: #f2a58e;
+    --danger-soft: #3d2620;
+    --info: #8ab4f8;
+    --info-soft: #1f2b3d;
+
+    --font-display: "Unbounded", sans-serif;
+    --font-body: "Manrope", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --radius-lg: 20px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+
+    --tabbar-h: 68px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}

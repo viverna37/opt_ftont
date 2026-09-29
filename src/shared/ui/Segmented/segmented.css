@@ -1,0 +1,22 @@
+.segmented {
+    padding: 4px;
+    border-radius: 14px;
+    background: var(--surface);
+    display: flex;
+    gap: 4px;
+}
+
+.segmented-item {
+    flex: 1;
+    min-height: 40px;
+    border-radius: 10px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 6px;
+}
+
+.segmented-item.on {
+    background: var(--border);
+    color: var(--ink);
+}

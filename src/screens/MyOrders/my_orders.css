@@ -1,0 +1,50 @@
+.my-orders {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.my-order {
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--ink);
+}
+
+.my-order-top,
+.my-order-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.my-order-number {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.my-order-items {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.my-order-bottom .mono {
+    font-size: 15px;
+}
+
+.detail-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
