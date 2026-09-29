@@ -119,6 +119,18 @@ export function CartScreen() {
                     </div>
                 ) : (
                     <div className="screen-pad">
+                        {data!.price_basis === "amount" && data!.tier && (
+                            <div className="cart-tier">
+                                <span>
+                                    Цены по уровню <b>«{data!.tier.label}»</b>
+                                </span>
+                                {data!.next_tier && data!.amount_to_next_tier != null && (
+                                    <span className="cart-tier-next">
+                                        Ещё <b className="mono">{money(data!.amount_to_next_tier)}</b> — и вся заявка по «{data!.next_tier.label}»
+                                    </span>
+                                )}
+                            </div>
+                        )}
                         {data!.groups.map((g) => (
                             <Group key={g.product_id} group={g} />
                         ))}

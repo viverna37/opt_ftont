@@ -8,6 +8,8 @@ export type StockStatus = "in_stock" | "low" | "out";
 export type OrderStatus = "new" | "in_progress" | "done" | "cancelled";
 export type AttributeType = "text" | "number" | "select" | "bool" | "color";
 export type AttributeScope = "product" | "variant";
+// От чего зависит уровень цены: количество штук товара или сумма всей заявки
+export type PriceBasis = "qty" | "amount";
 
 export type Page<T> = { items: T[]; total: number; limit: number; offset: number };
 
@@ -33,6 +35,7 @@ export type Tenant = TenantPublic & {
     manager_username: string | null;
     access_mode: AccessMode;
     age_gate: boolean;
+    price_basis: PriceBasis;
     min_order_amount: number | null;
     low_stock_threshold: number;
     catalog_updated_at: string;
@@ -100,9 +103,9 @@ export type CategoryDetail = {
     brands: Brand[];
 };
 
-export type PriceTier = { id: number; label: string; min_qty: number; sort_order: number };
+export type PriceTier = { id: number; label: string; min_qty: number | null; min_amount: number | null; sort_order: number };
 
-export type TierPrice = { tier_id: number; label: string; min_qty: number; amount: number | null };
+export type TierPrice = { tier_id: number; label: string; min_qty: number | null; min_amount: number | null; amount: number | null };
 
 export type ProductListItem = {
     id: number;
@@ -179,6 +182,11 @@ export type CartGroup = {
 };
 
 export type Cart = {
+    price_basis: PriceBasis;
+    // режим amount: уровень общий на заявку
+    tier: TierPrice | null;
+    next_tier: TierPrice | null;
+    amount_to_next_tier: number | null;
     groups: CartGroup[];
     total: number;
     total_qty: number;
@@ -309,6 +317,7 @@ export type TenantSettings = {
     low_stock_threshold: number;
     access_mode: AccessMode;
     age_gate: boolean;
+    price_basis: PriceBasis;
     min_order_amount: number | null;
     welcome_text: string | null;
     bot_username: string | null;

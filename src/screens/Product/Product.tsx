@@ -21,17 +21,19 @@ import "./product.css";
 
 const COLLAPSE_AFTER = 8;
 
-// Текущий уровень по количеству ЭТОГО товара в корзине — только для
-// подсветки плитки; цены в корзине и заявке считает бэкенд.
+// Текущий уровень — только для подсветки плитки; цены в корзине и заявке
+// считает бэкенд. Режим qty — по количеству ЭТОГО товара в корзине, режим
+// amount — уровень всей заявки из ответа корзины.
 function currentTier(tiers: TierPrice[], qty: number): TierPrice | null {
     let current: TierPrice | null = tiers[0] ?? null;
-    for (const t of tiers) if (t.min_qty <= qty) current = t;
+    for (const t of tiers) if ((t.min_qty ?? 0) <= qty) current = t;
     return current;
 }
 
 export function Product() {
     const { productId } = useParams();
-    const { api, base } = useSession();
+    const { api, base, me } = useSession();
+    const byAmount = me.tenant.price_basis === "amount";
     const cart = useCart();
     const toast = useToast();
     const [expanded, setExpanded] = useState(false);
@@ -56,8 +58,10 @@ export function Product() {
     }
 
     const tiers = card.tiers;
-    const tier = currentTier(tiers, inCart);
-    const nextTier = tiers.find((t) => t.min_qty > inCart) ?? null;
+    const cartTierId = cart.cart?.tier?.tier_id ?? card.current_tier_id;
+    const tier = byAmount ? (tiers.find((t) => t.tier_id === cartTierId) ?? tiers[0] ?? null) : currentTier(tiers, inCart);
+    const nextTier = byAmount ? null : (tiers.find((t) => (t.min_qty ?? 0) > inCart) ?? null);
+    const amountNext = byAmount && cart.cart?.next_tier ? tiers.find((t) => t.tier_id === cart.cart!.next_tier!.tier_id) : null;
     const shown = expanded ? variants : variants.slice(0, COLLAPSE_AFTER);
     const priceAt = (v: VariantCard) => v.prices.find((p) => p.tier_id === tier?.tier_id)?.amount ?? null;
     const productPrice = tiers.find((t) => t.tier_id === tier?.tier_id)?.amount ?? null;
@@ -132,7 +136,7 @@ export function Product() {
 
                 {tiers.length > 0 && (
                     <div className="product-section">
-                        <span className="muted product-label">Цена за штуку</span>
+                        <span className="muted product-label">{byAmount ? "Цена за штуку — зависит от суммы всей заявки" : "Цена за штуку"}</span>
                         <div className={`product-tiers cols-${Math.min(tiers.length, 3)}`}>
                             {tiers.map((t) => (
                                 <div key={t.tier_id} className={`tier ${t.tier_id === tier?.tier_id ? "on" : ""}`}>
@@ -143,11 +147,17 @@ export function Product() {
                         </div>
                         {nextTier && inCart > 0 && (
                             <p className="product-hint">
-                                Ещё <b>{nextTier.min_qty - inCart} шт</b> этого товара — и цена станет{" "}
+                                Ещё <b>{(nextTier.min_qty ?? 0) - inCart} шт</b> этого товара — и цена станет{" "}
                                 <b className="mono">{money(nextTier.amount)}</b>
                             </p>
                         )}
-                        {!nextTier && inCart > 0 && tiers.length > 1 && <p className="product-hint">У вас лучшая цена</p>}
+                        {!byAmount && !nextTier && inCart > 0 && tiers.length > 1 && <p className="product-hint">У вас лучшая цена</p>}
+                        {amountNext && cart.cart?.amount_to_next_tier != null && (
+                            <p className="product-hint">
+                                Добавьте в заявку ещё на <b className="mono">{money(cart.cart.amount_to_next_tier)}</b> — и эта позиция будет по{" "}
+                                <b className="mono">{money(amountNext.amount)}</b>
+                            </p>
+                        )}
                     </div>
                 )}
 

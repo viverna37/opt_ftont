@@ -147,9 +147,9 @@ export const adminUpdateBrand = (api: ApiClient, id: number, body: { name: strin
 export const adminDeleteBrand = (api: ApiClient, id: number) => api.del(`/v1/admin/brands/${id}`);
 
 export const adminTiers = (api: ApiClient) => api.get<PriceTier[]>("/v1/admin/price-tiers");
-export const adminCreateTier = (api: ApiClient, body: { label: string; min_qty: number; sort_order: number }) =>
+export const adminCreateTier = (api: ApiClient, body: { label: string; min_qty?: number; min_amount?: number; sort_order: number }) =>
     api.post<PriceTier>("/v1/admin/price-tiers", body);
-export const adminUpdateTier = (api: ApiClient, id: number, body: Partial<{ label: string; min_qty: number }>) =>
+export const adminUpdateTier = (api: ApiClient, id: number, body: Partial<{ label: string; min_qty: number; min_amount: number }>) =>
     api.patch<PriceTier>(`/v1/admin/price-tiers/${id}`, body);
 export const adminDeleteTier = (api: ApiClient, id: number) => api.del(`/v1/admin/price-tiers/${id}`);
 

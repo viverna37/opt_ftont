@@ -2,6 +2,22 @@
     padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 96px);
 }
 
+.cart-tier {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.cart-tier-next {
+    color: var(--ink);
+}
+
 .cart-group {
     border-radius: var(--radius-md);
     background: var(--surface);

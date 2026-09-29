@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { adminSettings, adminUpdateSettings, adminUploadLogo } from "../../shared/api/endpoints";
-import type { AccessMode, TenantSettings } from "../../shared/api/types";
+import type { AccessMode, PriceBasis, TenantSettings } from "../../shared/api/types";
 import { errorText } from "../../shared/api/client";
 import { useSession } from "../../shared/session/SessionProvider";
 import { moneyInput, parseMoney } from "../../shared/format/format";
@@ -29,6 +29,7 @@ type Draft = {
     timezone: string;
     access_mode: AccessMode;
     age_gate: boolean;
+    price_basis: PriceBasis;
     min_order_amount: string;
     low_stock_threshold: string;
 };
@@ -43,6 +44,7 @@ function draftOf(s: TenantSettings): Draft {
         timezone: s.timezone,
         access_mode: s.access_mode,
         age_gate: s.age_gate,
+        price_basis: s.price_basis,
         min_order_amount: moneyInput(s.min_order_amount),
         low_stock_threshold: String(s.low_stock_threshold),
     };
@@ -94,6 +96,7 @@ export function StoreSettings() {
                 timezone: draft.timezone.trim(),
                 access_mode: draft.access_mode,
                 age_gate: draft.age_gate,
+                price_basis: draft.price_basis,
                 min_order_amount: parseMoney(draft.min_order_amount),
                 low_stock_threshold: Math.max(0, Number(draft.low_stock_threshold) || 0),
             });
@@ -189,6 +192,22 @@ export function StoreSettings() {
                             : "Новый клиент видит «Ожидайте подтверждения», вы открываете доступ в разделе Клиенты."}
                     </span>
                     <SwitchRow title="Подтверждение 18+" subtitle="Один раз при первом входе, одна кнопка" checked={draft.age_gate} onChange={(v) => set("age_gate", v)} />
+
+                    <h2 className="section-title">Уровни цен</h2>
+                    <Segmented
+                        options={[
+                            { value: "qty", label: "По кол-ву товара" },
+                            { value: "amount", label: "По сумме заявки" },
+                        ]}
+                        value={draft.price_basis}
+                        onChange={(v) => set("price_basis", v)}
+                    />
+                    <span className="field-hint">
+                        {draft.price_basis === "qty"
+                            ? "«от 10 шт»: цена товара зависит от того, сколько штук его в заявке."
+                            : "«от 10 000 ₽»: цены всех позиций зависят от суммы всей заявки."}{" "}
+                        Сменить режим можно, только когда уровни цен не заведены.
+                    </span>
 
                     <h2 className="section-title">Заявки и наличие</h2>
                     <div className="grid-2">

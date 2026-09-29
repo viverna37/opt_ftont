@@ -3,6 +3,7 @@ import { adminCreateTier, adminDeleteTier, adminTiers, adminUpdateTier } from ".
 import type { PriceTier } from "../../shared/api/types";
 import { errorText } from "../../shared/api/client";
 import { useSession } from "../../shared/session/SessionProvider";
+import { money, moneyInput, parseMoney } from "../../shared/format/format";
 import { TopBar } from "../../shared/ui/TopBar/TopBar";
 import { Button } from "../../shared/ui/Button/Button";
 import { IconChevronRight, IconLayers, IconPlus } from "../../shared/ui/icons/Icon";
@@ -17,8 +18,11 @@ import "../../shared/ui/MainAction/main_action.css";
 import "./settings.css";
 
 export function TiersSettings() {
-    const { api, base } = useSession();
+    const { api, base, me } = useSession();
     const toast = useToast();
+    // Режим уровней оптовика: порог — штуки товара или рубли всей заявки
+    const byAmount = me.tenant.price_basis === "amount";
+    const autoLabel = (v: string) => (v ? (byAmount ? `от ${Number(v).toLocaleString("ru-RU")} ₽` : `от ${v} шт`) : "");
     useBackButton(`${base}/admin/settings`);
     const [items, setItems] = useState<PriceTier[] | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -43,7 +47,7 @@ export function TiersSettings() {
     const open = (t: PriceTier | "new") => {
         setEditing(t);
         setLabel(t === "new" ? "" : t.label);
-        setMinQty(t === "new" ? "" : String(t.min_qty));
+        setMinQty(t === "new" ? "" : byAmount ? moneyInput(t.min_amount) : String(t.min_qty ?? ""));
         setLabelTouched(t !== "new");
     };
 
@@ -51,13 +55,16 @@ export function TiersSettings() {
 
     const save = async () => {
         const qty = Number(minQty);
-        if (!qty || qty < 1) {
-            toast.show("Порог — целое число от 1", "danger");
+        const amount = parseMoney(minQty);
+        if (byAmount ? amount == null : !qty || qty < 1) {
+            toast.show(byAmount ? "Порог — сумма заявки в рублях" : "Порог — целое число от 1", "danger");
             return;
         }
         setBusy(true);
         try {
-            const body = { label: label.trim() || `от ${qty} шт`, min_qty: qty };
+            const body = byAmount
+                ? { label: label.trim() || autoLabel(minQty), min_amount: amount! }
+                : { label: label.trim() || autoLabel(minQty), min_qty: qty };
             if (tier) await adminUpdateTier(api, tier.id, body);
             else await adminCreateTier(api, { ...body, sort_order: items?.length ?? 0 });
             setEditing(null);
@@ -86,7 +93,9 @@ export function TiersSettings() {
                 <TopBar back={`${base}/admin/settings`} title="Уровни цен" />
                 <div className="screen-pad">
                     <Banner>
-                        Уровень определяется суммарным количеством всех вариантов товара в корзине: 6 шт манго + 4 шт колы = цена «от 10 шт» на оба вкуса.
+                        {byAmount
+                            ? "Уровень определяется суммой всей заявки: набрали на 10 000 ₽ в ценах этого уровня — все позиции по ценам «от 10 000 ₽». Режим меняется в «Оформление и доступ»."
+                            : "Уровень определяется суммарным количеством всех вариантов товара в корзине: 6 шт манго + 4 шт колы = цена «от 10 шт» на оба вкуса."}
                     </Banner>
                     {error && <Banner tone="danger">{error}</Banner>}
                     {!items && !error && <ListSkeleton rows={3} />}
@@ -100,7 +109,7 @@ export function TiersSettings() {
                             <button key={t.id} type="button" className="ref-row" onClick={() => open(t)}>
                                 <span className="ref-row-text">
                                     <span className="ref-row-title">{t.label}</span>
-                                    <span className="muted">от {t.min_qty} шт одного товара</span>
+                                    <span className="muted">{byAmount ? `заявка от ${money(t.min_amount)}` : `от ${t.min_qty} шт одного товара`}</span>
                                 </span>
                                 <IconChevronRight size={18} />
                             </button>
@@ -132,7 +141,7 @@ export function TiersSettings() {
             >
                 <div className="grid-2">
                     <div className="field">
-                        <label htmlFor="tq">От, шт</label>
+                        <label htmlFor="tq">{byAmount ? "Сумма заявки от, ₽" : "От, шт"}</label>
                         <input
                             id="tq"
                             className="mono"
@@ -141,7 +150,7 @@ export function TiersSettings() {
                             onChange={(e) => {
                                 const v = e.target.value.replace(/\D/g, "");
                                 setMinQty(v);
-                                if (!labelTouched) setLabel(v ? `от ${v} шт` : "");
+                                if (!labelTouched) setLabel(autoLabel(v));
                             }}
                         />
                     </div>
