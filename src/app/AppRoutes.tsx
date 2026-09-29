@@ -24,6 +24,10 @@ import { AttributesSettings } from "../screens/AdminSettings/AttributesSettings"
 import { TiersSettings } from "../screens/AdminSettings/TiersSettings";
 import { BrandsSettings } from "../screens/AdminSettings/BrandsSettings";
 import { AuditLog } from "../screens/AdminSettings/AuditLog";
+import { PlatformRoot } from "../screens/Platform/PlatformRoot";
+import { PlatformTenants } from "../screens/Platform/PlatformTenants";
+import { PlatformTenantNew } from "../screens/Platform/PlatformTenantNew";
+import { PlatformTenant } from "../screens/Platform/PlatformTenant";
 
 // Мини-апп открывается ботом оптовика по /t/{slug} — всё внутри тенанта.
 // Пути /t/{slug}/cart, /orders, /admin/orders/{id} — те же, что бэкенд
@@ -61,6 +65,12 @@ export function AppRoutes() {
                     <Route path="settings/brands" element={<BrandsSettings />} />
                     <Route path="settings/audit" element={<AuditLog />} />
                 </Route>
+            </Route>
+            {/* Раздел владельца платформы — вне тенантов (PLATFORM_ADMIN_IDS на бэкенде) */}
+            <Route path="/platform" element={<PlatformRoot />}>
+                <Route index element={<PlatformTenants />} />
+                <Route path="new" element={<PlatformTenantNew />} />
+                <Route path="t/:slug" element={<PlatformTenant />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

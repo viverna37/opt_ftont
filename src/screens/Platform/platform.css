@@ -1,0 +1,77 @@
+.pl-body {
+    padding-bottom: calc(96px + var(--safe-bottom));
+}
+
+.pl-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pl-fab {
+    bottom: calc(20px + var(--safe-bottom));
+}
+
+.pl-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    counter-reset: step;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+}
+
+.pl-steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 10px;
+}
+
+.pl-steps li::before {
+    content: counter(step);
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: var(--surface-alt);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pl-steps b {
+    color: var(--ink);
+}
+
+.pl-link-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.pl-link-row .mono {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pl-link-row button {
+    color: var(--accent);
+    display: flex;
+    min-width: 36px;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+}

@@ -45,11 +45,12 @@ export function buildQuery(params?: QueryParams): string {
     return text ? `?${text}` : "";
 }
 
-export function createApiClient(slug: string, initData: string, devUserId: string | null): ApiClient {
+// slug = null — запросы вне тенанта (раздел «Платформа» из бота платформы)
+export function createApiClient(slug: string | null, initData: string, devUserId: string | null): ApiClient {
     function headers(isFormData: boolean): Record<string, string> {
         return {
             ...(isFormData ? {} : { "Content-Type": "application/json" }),
-            "X-Tenant": slug,
+            ...(slug ? { "X-Tenant": slug } : {}),
             ...(initData ? { "X-Init-Data": initData } : {}),
             ...(devUserId ? { "X-Tg-User-Id": devUserId } : {}),
         };

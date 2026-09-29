@@ -19,6 +19,8 @@ import type {
     OrderStatus,
     Page,
     PriceRow,
+    PlatformMe,
+    PlatformTenant,
     PriceTier,
     ProductCard,
     ProductListItem,
@@ -160,3 +162,17 @@ export const adminUploadLogo = (api: ApiClient, file: File) => {
     return api.postForm<TenantSettings>("/v1/admin/settings/logo", form);
 };
 export const adminAudit = (api: ApiClient, params: QueryParams) => api.get<AuditEntry[]>("/v1/admin/audit", params);
+
+// ---------- Платформа (владелец сервиса) ----------
+
+export const platformMe = (api: ApiClient) => api.get<PlatformMe>("/v1/platform/me");
+export const platformTenants = (api: ApiClient) => api.get<PlatformTenant[]>("/v1/platform/tenants");
+export const platformTenant = (api: ApiClient, slug: string) => api.get<PlatformTenant>(`/v1/platform/tenants/${slug}`);
+export type PlatformTenantFields = { slug: string; name: string; bot_token?: string | null; owner_telegram_id?: number | null };
+export const platformCreateTenant = (api: ApiClient, body: PlatformTenantFields) =>
+    api.post<PlatformTenant>("/v1/platform/tenants", body);
+export const platformUpdateTenant = (
+    api: ApiClient,
+    slug: string,
+    body: Partial<{ name: string; is_active: boolean; bot_token: string; owner_telegram_id: number }>,
+) => api.patch<PlatformTenant>(`/v1/platform/tenants/${slug}`, body);

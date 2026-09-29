@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../../shared/session/SessionProvider";
 import { setStaffMode } from "../../shared/local/storage";
+import { PLATFORM_FROM_KEY } from "../Platform/PlatformRoot";
 import { displayName, ROLE_LABEL } from "../../shared/format/format";
 import { TopBar } from "../../shared/ui/TopBar/TopBar";
 import { MenuRow } from "../../shared/ui/MenuRow/MenuRow";
 import { Avatar } from "../../shared/ui/Avatar/Avatar";
-import { IconClock, IconEye, IconGrid, IconLayers, IconPalette, IconSliders, IconTag } from "../../shared/ui/icons/Icon";
+import { IconClock, IconEye, IconStore, IconGrid, IconLayers, IconPalette, IconSliders, IconTag } from "../../shared/ui/icons/Icon";
 import { AdminTabs } from "../../shared/ui/Tabs/Tabs";
 import "./settings.css";
 
@@ -55,6 +56,17 @@ export function AdminSettings() {
                     )}
 
                     <div className="menu-list">
+                        {me.is_platform_admin && (
+                            <MenuRow
+                                icon={<IconStore size={20} />}
+                                title="Платформа"
+                                subtitle="Все оптовики сервиса — только для вас"
+                                onClick={() => {
+                                    window.sessionStorage.setItem(PLATFORM_FROM_KEY, slug);
+                                    navigate("/platform");
+                                }}
+                            />
+                        )}
                         <MenuRow
                             icon={<IconEye size={20} />}
                             title="Открыть витрину"

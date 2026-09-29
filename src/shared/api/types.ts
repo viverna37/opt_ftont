@@ -43,6 +43,7 @@ export type Me = {
     role: Role;
     status: MemberStatus;
     is_staff: boolean;
+    is_platform_admin: boolean;
     access: Access;
     age_confirmed_at: string | null;
     user: TgUser;
@@ -323,3 +324,25 @@ export type AuditEntry = {
     data: Record<string, unknown> | null;
     created_at: string;
 };
+
+// ---------- Платформа ----------
+
+export type PlatformTenant = {
+    id: number;
+    slug: string;
+    name: string;
+    is_active: boolean;
+    bot_username: string | null;
+    bot_configured: boolean;
+    owner: TgUser | null;
+    products_count: number;
+    clients_count: number;
+    orders_count: number;
+    last_order_at: string | null;
+    created_at: string;
+    catalog_url: string | null;
+    bot_url: string | null;
+    warnings?: string[];
+};
+
+export type PlatformMe = { telegram_id: number; webapp_configured: boolean; platform_bot_configured: boolean };

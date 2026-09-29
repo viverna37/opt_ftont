@@ -5,7 +5,7 @@ import { useLoad } from "../../shared/hooks/useLoad";
 import { isToday, positions, shortDate } from "../../shared/format/format";
 import { Logo } from "../../shared/ui/Logo/Logo";
 import { IconButton } from "../../shared/ui/Button/Button";
-import { IconChat, IconSearch, IconSettings, IconGrid } from "../../shared/ui/icons/Icon";
+import { IconChat, IconSearch, IconSettings, IconGrid, IconStore } from "../../shared/ui/icons/Icon";
 import { ProductRow } from "../../shared/ui/ProductRow/ProductRow";
 import { ListSkeleton } from "../../shared/ui/Spinner/Spinner";
 import { Banner } from "../../shared/ui/Banner/Banner";
@@ -13,6 +13,7 @@ import { Empty } from "../../shared/ui/Empty/Empty";
 import { ClientTabs } from "../../shared/ui/Tabs/Tabs";
 import { openLink } from "../../shared/platform/telegram";
 import { setStaffMode } from "../../shared/local/storage";
+import { PLATFORM_FROM_KEY } from "../Platform/PlatformRoot";
 import "./catalog_home.css";
 
 export function CatalogHome() {
@@ -37,6 +38,17 @@ export function CatalogHome() {
                             {categories.data ? ` · ${positions(total)}` : ""}
                         </span>
                     </div>
+                    {me.is_platform_admin && !me.is_staff && (
+                        <IconButton
+                            label="Платформа"
+                            onClick={() => {
+                                window.sessionStorage.setItem(PLATFORM_FROM_KEY, slug);
+                                navigate("/platform");
+                            }}
+                        >
+                            <IconStore size={20} />
+                        </IconButton>
+                    )}
                     {me.is_staff && (
                         <IconButton
                             label="Админка"
